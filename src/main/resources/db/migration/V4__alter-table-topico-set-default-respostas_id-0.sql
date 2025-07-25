@@ -1,0 +1,1 @@
+alter table topico alter respostas_id set default 0;
