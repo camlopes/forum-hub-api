@@ -30,6 +30,11 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Perfil perfil;
 
+    public Usuario(DadosUsuario autor) {
+        this.nome = autor.nome();
+        this.email = autor.email();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
