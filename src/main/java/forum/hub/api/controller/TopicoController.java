@@ -1,5 +1,6 @@
 package forum.hub.api.controller;
 
+import forum.hub.api.domain.curso.Curso;
 import forum.hub.api.domain.topico.*;
 import forum.hub.api.domain.usuario.UsuarioRepository;
 import jakarta.transaction.Transactional;
@@ -37,6 +38,12 @@ public class TopicoController {
     @GetMapping
     public ResponseEntity<Page<DadosListagemTopicos>> listar(@PageableDefault(size = 10, sort = {"dataCriacao"}, direction = Sort.Direction.ASC) Pageable paginacao) {
         var page = topicoRepository.findAll(paginacao).map(DadosListagemTopicos::new);
+        return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/{nomeCurso}")
+    public ResponseEntity<Page<DadosListagemTopicos>> listarPorCurso(@PathVariable Curso nomeCurso, @PageableDefault(size = 10, sort = {"dataCriacao"}, direction = Sort.Direction.ASC) Pageable paginacao) {
+        var page = topicoRepository.listarPorNomeCurso(nomeCurso, paginacao).map(DadosListagemTopicos::new);
         return ResponseEntity.ok(page);
     }
 }
