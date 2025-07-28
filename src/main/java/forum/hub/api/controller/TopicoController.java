@@ -1,18 +1,16 @@
 package forum.hub.api.controller;
 
-import forum.hub.api.domain.topico.DadosCriacaoTopico;
-import forum.hub.api.domain.topico.DadosDetalhamentoTopico;
-import forum.hub.api.domain.topico.Topico;
-import forum.hub.api.domain.topico.TopicoRepository;
+import forum.hub.api.domain.topico.*;
 import forum.hub.api.domain.usuario.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
@@ -34,5 +32,11 @@ public class TopicoController {
         var uri = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new DadosDetalhamentoTopico(topico));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<DadosListagemTopicos>> listar(@PageableDefault(size = 10, sort = {"dataCriacao"}, direction = Sort.Direction.ASC) Pageable paginacao) {
+        var page = topicoRepository.findAll(paginacao).map(DadosListagemTopicos::new);
+        return ResponseEntity.ok(page);
     }
 }

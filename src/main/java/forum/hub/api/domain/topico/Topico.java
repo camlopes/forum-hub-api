@@ -26,6 +26,7 @@ public class Topico {
     private String titulo;
     private String mensagem;
     private LocalDateTime dataCriacao;
+    private Boolean status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "autor_id")
@@ -43,5 +44,6 @@ public class Topico {
         this.autor = autor;
         this.curso = dados.nomeCurso();
         this.dataCriacao = LocalDateTime.now();
+        this.status = true;
     }
 }
