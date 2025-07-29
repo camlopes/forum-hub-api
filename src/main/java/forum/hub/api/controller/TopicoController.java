@@ -32,7 +32,7 @@ public class TopicoController {
         topicoRepository.save(topico);
         var uri = uriComponentsBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new DadosDetalhamentoTopico(topico));
+        return ResponseEntity.created(uri).body(new DadosDetalhamentoTopicoCriado(topico));
     }
 
     @GetMapping
@@ -41,9 +41,15 @@ public class TopicoController {
         return ResponseEntity.ok(page);
     }
 
-    @GetMapping("/{nomeCurso}")
+    @GetMapping("nomeCurso/{nomeCurso}")
     public ResponseEntity<Page<DadosListagemTopicos>> listarPorCurso(@PathVariable Curso nomeCurso, @PageableDefault(size = 10, sort = {"dataCriacao"}, direction = Sort.Direction.ASC) Pageable paginacao) {
         var page = topicoRepository.listarPorNomeCurso(nomeCurso, paginacao).map(DadosListagemTopicos::new);
         return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity detalhar(@PathVariable Long id) {
+        var topico = topicoRepository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoTopico(topico));
     }
 }

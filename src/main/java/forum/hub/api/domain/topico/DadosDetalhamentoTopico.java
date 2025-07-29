@@ -1,14 +1,17 @@
 package forum.hub.api.domain.topico;
 
+import forum.hub.api.domain.curso.Curso;
 import java.time.LocalDateTime;
 
 public record DadosDetalhamentoTopico(
-        Long id,
         String titulo,
         String mensagem,
-        LocalDateTime dataCriacao) {
+        LocalDateTime dataCriacao,
+        Boolean status,
+        String nomeAutor,
+        Curso curso) {
 
     public DadosDetalhamentoTopico(Topico topico) {
-        this(topico.getId(), topico.getTitulo(), topico.getMensagem(), topico.getDataCriacao());
+        this(topico.getTitulo(), topico.getMensagem(), topico.getDataCriacao(), topico.getStatus(), topico.getAutor().getNome(), topico.getCurso());
     }
 }
