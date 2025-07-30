@@ -24,7 +24,7 @@ public class ValidarAutorEPerfil implements ValidarAtualizacaoTopico {
 
         if (perfil != Perfil.ADMIN_ROLE) {
             if (!(topicoNomeSalvo.equals(supostoNomeAutor) && topicoEmailSalvo.equals(supostoEmailAutor))) {
-                throw new ValidacaoException("Somente o administrador ou o dono do topico pode fazer modificações");
+                throw new ValidacaoException("Somente o administrador ou o dono do topico podem fazer modificações");
             }
         }
     }
